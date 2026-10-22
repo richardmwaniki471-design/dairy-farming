@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Milk Collection System</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            margin: 20px;
+        }
+
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            text-align: center;
+            color: green;
+        }
+
+        input,
+        select {
+            width: 250px;
+            padding: 10px;
+            margin: 5px;
+        }
+
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+        }
+
+        .save-btn {
+            background: green;
+        }
+
+        .price-btn {
+            background: blue;
+        }
+
+        .edit-btn {
+            background: orange;
+        }
+
+        .delete-btn {
+            background: red;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background: green;
+            color: white;
+        }
+
+        .stats {
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Milk Collection System</h1>
+
+        <h2>Milk Price Settings</h2>
+
+        <input type="number" id="milkPriceInput" placeholder="Enter Current Milk Price">
+
+        <button class="price-btn" onclick="setPrice()">
+            Set Price
+        </button>
+
+        <br><br>
+
+        Current Milk Price:
+        <b>Ksh <span id="currentPrice">0</span> Per Litre</b>
+
+        <hr>
+
+        <div class="stats">
+
+            Total Milk Collected:
+            <b><span id="totalMilk">0</span> Litres</b>
+
+            <br><br>
+
+            Total Milk Value:
+            <b>Ksh <span id="totalValue">0</span></b>
+
+            <br><br>
+
+            Total Records:
+            <b><span id="recordCount">0</span></b>
+
+        </div>
+
+        <h2>Milk Entry Form</h2>
+
+        <input type="date" id="date">
+
+        <select id="farmerSelect">
+            <option value="">
+                Select Farmer
+            </option>
+        </select>
+
+        <input type="number" id="litres" placeholder="Milk Litres">
+
+        <br><br>
+
+        <button id="saveBtn" class="save-btn" onclick="saveMilk()">
+            Save Milk Record
+        </button>
+
+        <table id="milkTable">
+
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Farmer ID</th>
+                    <th>Farmer Name</th>
+                    <th>Litres</th>
+                    <th>Value (Ksh)</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <script>
+
+        let milkPrice = 0;
+        let editingRow = null;
+
+        window.onload = function () {
+
+            document.getElementById("date").value =
+                new Date().toISOString().split("T")[0];
+
+            loadFarmers();
+
+        };
+
+        function loadFarmers() {
+
+            let farmers =
+                JSON.parse(localStorage.getItem("farmers"));
+
+            console.log("Farmers Loaded:", farmers);
+
+            let select =
+                document.getElementById("farmerSelect");
+
+            select.innerHTML =
+                '<option value="">Select Farmer</option>';
+
+            if (!farmers) {
+                alert("No farmers found in storage");
+                return;
+            }
+
+            farmers.forEach(function (farmer) {
+
+                let option =
+                    document.createElement("option");
+
+                option.value =
+                    farmer.farmerid;
+
+                option.textContent =
+                    farmer.farmerid +
+                    " - " +
+                    farmer.name;
+
+                option.setAttribute(
+                    "data-name",
+                    farmer.name
+                );
+
+                select.appendChild(option);
+
+            });
+
+        }
+
+        function setPrice() {
+
+            milkPrice =
+                Number(
+                    document.getElementById("milkPriceInput").value
+                );
+
+            if (milkPrice <= 0) {
+
+                alert("Enter valid milk price");
+
+                return;
+
+            }
+
+            document.getElementById("currentPrice").innerText =
+                milkPrice;
+
+        }
+
+        function saveMilk() {
+
+            let date =
+                document.getElementById("date").value;
+
+            let select =
+                document.getElementById("farmerSelect");
+
+            let farmerid =
+                select.value;
+
+            if (!farmerid) {
+
+                alert("Select Farmer");
+
+                return;
+
+            }
+
+            let farmername =
+                select.options[
+                    select.selectedIndex
+                ].getAttribute("data-name");
+
+            let litres =
+                document.getElementById("litres").value;
+
+            if (milkPrice === 0) {
+
+                alert("Set milk price first");
+
+                return;
+
+            }
+
+            if (!litres) {
+
+                alert("Enter litres");
+
+                return;
+
+            }
+
+            let value =
+                Number(litres) * milkPrice;
+
+            let table =
+                document.querySelector(
+                    "#milkTable tbody"
+                );
+
+            let row =
+                table.insertRow();
+
+            row.insertCell(0).innerHTML =
+                date;
+
+            row.insertCell(1).innerHTML =
+                farmerid;
+
+            row.insertCell(2).innerHTML =
+                farmername;
+
+            row.insertCell(3).innerHTML =
+                litres;
+
+            row.insertCell(4).innerHTML =
+                value;
+
+            row.insertCell(5).innerHTML =
+                `
+<button class="delete-btn"
+onclick="deleteRecord(this)">
+Delete
+</button>
+`;
+
+            updateTotals();
+
+            document.getElementById("litres").value = "";
+
+        }
+
+        function deleteRecord(button) {
+
+            let row =
+                button.parentElement.parentElement;
+
+            row.remove();
+
+            updateTotals();
+
+        }
+
+        function updateTotals() {
+
+            let totalMilk = 0;
+
+            let totalValue = 0;
+
+            let rows =
+                document.querySelectorAll(
+                    "#milkTable tbody tr"
+                );
+
+            rows.forEach(row => {
+
+                totalMilk +=
+                    Number(row.cells[3].innerText);
+
+                totalValue +=
+                    Number(row.cells[4].innerText);
+
+            });
+
+            document.getElementById(
+                "totalMilk"
+            ).innerText =
+                totalMilk;
+
+            document.getElementById(
+                "totalValue"
+            ).innerText =
+                totalValue;
+
+            document.getElementById(
+                "recordCount"
+            ).innerText =
+                rows.length;
+
+        }
+
+    </script>
+
+</body>
+
+</html>

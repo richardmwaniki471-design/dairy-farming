@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Storage Test</title>
+</head>
+
+<body>
+
+    <h1>Storage Test</h1>
+
+    <button onclick="saveData()">
+        Save Test Farmer
+    </button>
+
+    <button onclick="showData()">
+        Show Stored Data
+    </button>
+
+    <pre id="output"></pre>
+
+    <script>
+
+        function saveData() {
+
+            let farmers = [
+
+                {
+                    farmerid: "001",
+                    name: "Richard"
+                },
+
+                {
+                    farmerid: "002",
+                    name: "John"
+                }
+
+            ];
+
+            localStorage.setItem(
+                "farmers",
+                JSON.stringify(farmers)
+            );
+
+            alert("Saved");
+
+        }
+
+        function showData() {
+
+            document.getElementById("output").textContent =
+                localStorage.getItem("farmers");
+
+        }
+
+    </script>
+
+</body>
+
+</html>

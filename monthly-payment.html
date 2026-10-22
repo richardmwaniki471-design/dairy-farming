@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Monthly Payment Calculator</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f4f4;
+            margin: 20px;
+        }
+
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px gray;
+        }
+
+        h1 {
+            text-align: center;
+            color: green;
+        }
+
+        input {
+            width: 250px;
+            padding: 10px;
+            margin: 5px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: green;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .report {
+            margin-top: 20px;
+            padding: 20px;
+            background: #eef;
+            border-radius: 10px;
+        }
+
+        .net {
+            font-size: 30px;
+            font-weight: bold;
+            color: green;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Monthly Payment Calculator</h1>
+
+        <input type="text" id="farmerid" placeholder="Farmer ID">
+
+        <input type="text" id="farmername" placeholder="Farmer Name">
+
+        <input type="number" id="milkvalue" placeholder="Milk Value">
+
+        <input type="number" id="agrovet" placeholder="Agrovet Deductions">
+
+        <input type="number" id="store" placeholder="Store Deductions">
+
+        <input type="number" id="groupfund" placeholder="Group Contribution">
+
+        <br><br>
+
+        <button onclick="calculatePayment()">
+            Generate Payment
+        </button>
+
+        <div class="report">
+
+            <h2>Payment Statement</h2>
+
+            <p>
+                Farmer ID:
+                <b id="rID">-</b>
+            </p>
+
+            <p>
+                Farmer Name:
+                <b id="rName">-</b>
+            </p>
+
+            <p>
+                Milk Value:
+                <b id="rMilk">0</b>
+            </p>
+
+            <p>
+                Agrovet:
+                <b id="rAgro">0</b>
+            </p>
+
+            <p>
+                Store:
+                <b id="rStore">0</b>
+            </p>
+
+            <p>
+                Group Fund:
+                <b id="rFund">0</b>
+            </p>
+
+            <p>
+                Total Deductions:
+                <b id="rDed">0</b>
+            </p>
+
+            <div class="net">
+                Net Payment:
+                Ksh <span id="rNet">0</span>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+
+        function calculatePayment() {
+
+            let farmerid =
+                document.getElementById("farmerid").value;
+
+            let farmername =
+                document.getElementById("farmername").value;
+
+            let milk =
+                Number(
+                    document.getElementById("milkvalue").value
+                );
+
+            let agro =
+                Number(
+                    document.getElementById("agrovet").value
+                );
+
+            let store =
+                Number(
+                    document.getElementById("store").value
+                );
+
+            let fund =
+                Number(
+                    document.getElementById("groupfund").value
+                );
+
+            let deductions =
+                agro + store + fund;
+
+            let net =
+                milk - deductions;
+
+            document.getElementById("rID").innerHTML =
+                farmerid;
+
+            document.getElementById("rName").innerHTML =
+                farmername;
+
+            document.getElementById("rMilk").innerHTML =
+                milk;
+
+            document.getElementById("rAgro").innerHTML =
+                agro;
+
+            document.getElementById("rStore").innerHTML =
+                store;
+
+            document.getElementById("rFund").innerHTML =
+                fund;
+
+            document.getElementById("rDed").innerHTML =
+                deductions;
+
+            document.getElementById("rNet").innerHTML =
+                net;
+
+        }
+
+    </script>
+
+</body>
+
+</html>

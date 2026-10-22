@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dairy Farmers Management System</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            margin: 20px;
+        }
+
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            text-align: center;
+            color: green;
+        }
+
+        .stats {
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
+
+        input {
+            width: 250px;
+            padding: 10px;
+            margin: 5px;
+        }
+
+        button {
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+            color: white;
+            background: green;
+            border-radius: 5px;
+        }
+
+        .delete-btn {
+            background: red;
+        }
+
+        .activate-btn {
+            background: orange;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background: green;
+            color: white;
+        }
+
+        .active {
+            color: green;
+            font-weight: bold;
+        }
+
+        .inactive {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Dairy Farmers Management System</h1>
+
+        <div class="stats">
+            Total Farmers:
+            <span id="totalFarmers">0</span>
+        </div>
+
+        <h2>Farmer Registration</h2>
+
+        <input type="text" id="farmerid" placeholder="Farmer ID">
+
+        <input type="text" id="name" placeholder="Full Name">
+
+        <input type="text" id="phone" placeholder="Phone Number">
+
+        <input type="text" id="nationalid" placeholder="National ID">
+
+        <input type="date" id="date">
+
+        <br><br>
+
+        <button onclick="registerFarmer()">
+            Register Farmer
+        </button>
+
+        <h2>Search Farmer</h2>
+
+        <input type="text" id="search" placeholder="Search Farmer..." onkeyup="searchFarmer()">
+
+        <h2>Registered Farmers</h2>
+
+        <table id="farmersTable">
+
+            <thead>
+                <tr>
+                    <th>Farmer ID</th>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>National ID</th>
+                    <th>Date Registered</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <script>
+
+        let farmers =
+            JSON.parse(localStorage.getItem("farmers")) || [];
+
+        displayFarmers();
+
+        function registerFarmer() {
+
+            let farmerid =
+                document.getElementById("farmerid").value;
+
+            let name =
+                document.getElementById("name").value;
+
+            let phone =
+                document.getElementById("phone").value;
+
+            let nationalid =
+                document.getElementById("nationalid").value;
+
+            let date =
+                document.getElementById("date").value;
+
+            if (
+                !farmerid ||
+                !name ||
+                !phone ||
+                !nationalid ||
+                !date
+            ) {
+
+                alert("Please fill all fields");
+
+                return;
+
+            }
+
+            farmers.push({
+
+                farmerid: farmerid,
+                name: name,
+                phone: phone,
+                nationalid: nationalid,
+                date: date,
+                status: "Active"
+
+            });
+
+            saveFarmers();
+
+            displayFarmers();
+
+            document.getElementById("farmerid").value = "";
+            document.getElementById("name").value = "";
+            document.getElementById("phone").value = "";
+            document.getElementById("nationalid").value = "";
+            document.getElementById("date").value = "";
+
+        }
+
+        function saveFarmers() {
+
+            localStorage.setItem(
+                "farmers",
+                JSON.stringify(farmers)
+            );
+
+        }
+
+        function displayFarmers() {
+
+            let tbody =
+                document.querySelector("#farmersTable tbody");
+
+            tbody.innerHTML = "";
+
+            farmers.forEach((farmer, index) => {
+
+                let row = `
+
+<tr>
+
+<td>${farmer.farmerid}</td>
+
+<td>${farmer.name}</td>
+
+<td>${farmer.phone}</td>
+
+<td>${farmer.nationalid}</td>
+
+<td>${farmer.date}</td>
+
+<td class="${farmer.status === "Active"
+                        ?
+                        "active"
+                        :
+                        "inactive"
+                    }">
+${farmer.status}
+</td>
+
+<td>
+
+<button onclick="toggleStatus(${index})">
+
+${farmer.status === "Active"
+                        ?
+                        "Deactivate"
+                        :
+                        "Activate"}
+
+</button>
+
+<button
+class="delete-btn"
+onclick="deleteFarmer(${index})">
+
+Delete
+
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+                tbody.innerHTML += row;
+
+            });
+
+            updateTotal();
+
+        }
+
+        function toggleStatus(index) {
+
+            if (farmers[index].status === "Active") {
+
+                farmers[index].status = "Inactive";
+
+            } else {
+
+                farmers[index].status = "Active";
+
+            }
+
+            saveFarmers();
+
+            displayFarmers();
+
+        }
+
+        function deleteFarmer(index) {
+
+            if (confirm("Delete this farmer?")) {
+
+                farmers.splice(index, 1);
+
+                saveFarmers();
+
+                displayFarmers();
+
+            }
+
+        }
+
+        function searchFarmer() {
+
+            let filter =
+                document.getElementById("search")
+                    .value.toLowerCase();
+
+            let rows =
+                document.querySelectorAll(
+                    "#farmersTable tbody tr"
+                );
+
+            rows.forEach(row => {
+
+                let text =
+                    row.innerText.toLowerCase();
+
+                row.style.display =
+                    text.includes(filter)
+                        ?
+                        ""
+                        :
+                        "none";
+
+            });
+
+        }
+
+        function updateTotal() {
+
+            document.getElementById(
+                "totalFarmers"
+            ).innerText =
+                farmers.length;
+
+        }
+
+    </script>
+
+</body>
+
+</html>

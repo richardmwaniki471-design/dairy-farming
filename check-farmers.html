@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Check Farmers Storage</title>
+</head>
+
+<body>
+
+    <h1>Check Farmers Storage</h1>
+
+    <button onclick="showFarmers()">
+        Show Stored Farmers
+    </button>
+
+    <button onclick="createTestFarmer()">
+        Create Test Farmer
+    </button>
+
+    <pre id="output"></pre>
+
+    <script>
+
+        function showFarmers() {
+
+            let farmers =
+                JSON.parse(
+                    localStorage.getItem("farmers")
+                );
+
+            document.getElementById("output").textContent =
+                JSON.stringify(
+                    farmers,
+                    null,
+                    2
+                );
+
+        }
+
+        function createTestFarmer() {
+
+            let farmers = [
+
+                {
+                    farmerid: "001",
+                    name: "Richard Mwangi",
+                    phone: "0712345678",
+                    nationalid: "12345678",
+                    date: "2026-10-21",
+                    status: "Active"
+                },
+
+                {
+                    farmerid: "002",
+                    name: "John Kamau",
+                    phone: "0711111111",
+                    nationalid: "87654321",
+                    date: "2026-10-21",
+                    status: "Active"
+                }
+
+            ];
+
+            localStorage.setItem(
+                "farmers",
+                JSON.stringify(farmers)
+            );
+
+            alert("Test Farmers Created");
+
+        }
+
+    </script>
+
+</body>
+
+</html>

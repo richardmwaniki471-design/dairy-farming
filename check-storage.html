@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+
+    <button onclick="check()">
+        Check Storage
+    </button>
+
+    <pre id="result"></pre>
+
+    <script>
+
+        function check() {
+
+            document.getElementById("result").textContent =
+                localStorage.getItem("farmers");
+
+        }
+
+    </script>
+
+</body>
+
+</html>

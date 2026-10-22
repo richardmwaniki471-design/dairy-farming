@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+
+    <h2>Register Farmer</h2>
+
+    <input id="farmerid" placeholder="Farmer ID">
+
+    <input id="farmername" placeholder="Farmer Name">
+
+    <button onclick="saveFarmer()">
+        Save Farmer
+    </button>
+
+    <button onclick="showFarmers()">
+        Show Farmers
+    </button>
+
+    <ul id="list"></ul>
+
+    <script>
+
+        let farmers = [];
+
+        function saveFarmer() {
+
+            let id =
+                document.getElementById("farmerid").value;
+
+            let name =
+                document.getElementById("farmername").value;
+
+            farmers.push({
+
+                id: id,
+
+                name: name
+
+            });
+
+            localStorage.setItem(
+                "farmers",
+                JSON.stringify(farmers)
+            );
+
+            alert("Farmer Saved");
+
+        }
+
+        function showFarmers() {
+
+            let savedFarmers =
+                JSON.parse(
+                    localStorage.getItem("farmers")
+                );
+
+            let output = "";
+
+            savedFarmers.forEach(function (farmer) {
+
+                output +=
+
+                    "<li>" +
+
+                    farmer.id +
+
+                    " - " +
+
+                    farmer.name +
+
+                    "</li>";
+
+            });
+
+            document.getElementById("list").innerHTML =
+                output;
+
+        }
+
+    </script>
+
+</body>
+
+</html>

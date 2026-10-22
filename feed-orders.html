@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Feed Orders System</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f4f4;
+            margin: 20px;
+        }
+
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px gray;
+        }
+
+        h1 {
+            text-align: center;
+            color: green;
+        }
+
+        input,
+        select {
+            padding: 10px;
+            width: 220px;
+            margin: 5px;
+        }
+
+        button {
+            padding: 10px 15px;
+            background: green;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .approve {
+            background: blue;
+        }
+
+        .reject {
+            background: red;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background: green;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Farmer Feed Orders System</h1>
+
+        <h2>Place Feed Order</h2>
+
+        <input type="date" id="date">
+
+        <input type="text" id="farmerid" placeholder="Farmer ID">
+
+        <input type="text" id="farmername" placeholder="Farmer Name">
+
+        <select id="item">
+
+            <option value="">
+                Select Feed
+            </option>
+
+            <option>Dairy Meal</option>
+
+            <option>Hay</option>
+
+            <option>Silage</option>
+
+            <option>Salt Lick</option>
+
+            <option>Minerals</option>
+
+        </select>
+
+        <input type="number" id="quantity" placeholder="Quantity">
+
+        <br><br>
+
+        <button onclick="placeOrder()">
+            Place Order
+        </button>
+
+        <h2>Pending Orders</h2>
+
+        <table id="ordersTable">
+
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Farmer ID</th>
+                    <th>Farmer Name</th>
+                    <th>Item</th>
+                    <th>Quantity</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <script>
+
+        window.onload = function () {
+
+            document.getElementById("date").value =
+                new Date().toISOString().split("T")[0];
+
+        };
+
+        function placeOrder() {
+
+            let date =
+                document.getElementById("date").value;
+
+            let farmerid =
+                document.getElementById("farmerid").value;
+
+            let farmername =
+                document.getElementById("farmername").value;
+
+            let item =
+                document.getElementById("item").value;
+
+            let quantity =
+                document.getElementById("quantity").value;
+
+            if (
+                !date ||
+                !farmerid ||
+                !farmername ||
+                !item ||
+                !quantity
+            ) {
+                alert("Fill all fields");
+                return;
+            }
+
+            let table =
+                document.querySelector("#ordersTable tbody");
+
+            let row =
+                table.insertRow();
+
+            row.insertCell(0).innerHTML = date;
+            row.insertCell(1).innerHTML = farmerid;
+            row.insertCell(2).innerHTML = farmername;
+            row.insertCell(3).innerHTML = item;
+            row.insertCell(4).innerHTML = quantity;
+            row.insertCell(5).innerHTML = "Pending";
+
+            row.insertCell(6).innerHTML =
+                `
+<button class="approve"
+onclick="approveOrder(this)">
+Approve
+</button>
+
+<button class="reject"
+onclick="rejectOrder(this)">
+Reject
+</button>
+`;
+
+            document.getElementById("farmerid").value = "";
+            document.getElementById("farmername").value = "";
+            document.getElementById("item").value = "";
+            document.getElementById("quantity").value = "";
+
+        }
+
+        function approveOrder(button) {
+
+            let row =
+                button.parentElement.parentElement;
+
+            row.cells[5].innerHTML = "Approved";
+
+        }
+
+        function rejectOrder(button) {
+
+            let row =
+                button.parentElement.parentElement;
+
+            row.cells[5].innerHTML = "Rejected";
+
+        }
+
+    </script>
+
+</body>
+
+</html>

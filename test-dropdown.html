@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmer Dropdown Test</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            padding: 20px;
+        }
+
+        select {
+            width: 300px;
+            padding: 10px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <h2>Farmer Dropdown Test</h2>
+
+    <select id="farmerSelect">
+
+        <option value="">
+            Select Farmer
+        </option>
+
+    </select>
+
+    <script>
+
+        window.onload = function () {
+
+            let farmers =
+                JSON.parse(
+                    localStorage.getItem("farmers")
+                ) || [];
+
+            alert(
+                "Farmers Found: " +
+                farmers.length
+            );
+
+            let select =
+                document.getElementById(
+                    "farmerSelect"
+                );
+
+            for (let i = 0; i < farmers.length; i++) {
+
+                let option =
+                    document.createElement("option");
+
+                option.value =
+                    farmers[i].farmerid;
+
+                option.textContent =
+                    farmers[i].farmerid +
+                    " - " +
+                    farmers[i].name;
+
+                select.appendChild(option);
+
+            }
+
+        };
+
+    </script>
+
+</body>
+
+</html>

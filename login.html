@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dairy Login</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background: white;
+            padding: 30px;
+            width: 400px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            text-align: center;
+            color: green;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: green;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: darkgreen;
+        }
+
+        #error {
+            color: red;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        #moduleName {
+            text-align: center;
+            font-weight: bold;
+            color: green;
+            margin-bottom: 15px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Dairy Login</h1>
+
+        <div id="moduleName"></div>
+
+        <input type="password" id="password" placeholder="Enter Password">
+
+        <button onclick="login()">
+            Login
+        </button>
+
+        <div id="error"></div>
+
+    </div>
+
+    <script>
+
+        const params =
+            new URLSearchParams(window.location.search);
+
+        const module =
+            params.get("module");
+
+        document.getElementById("moduleName").innerHTML =
+            "Module: " + module;
+
+        function login() {
+
+            let password =
+                document.getElementById("password").value;
+
+            if (password !== "admin123") {
+
+                document.getElementById("error").innerHTML =
+                    "Wrong Password";
+
+                return;
+
+            }
+
+            if (module === "farmers") {
+
+                window.location.href =
+                    "farmers.html";
+
+            }
+
+            else if (module === "milk") {
+
+                window.location.href =
+                    "milk-records.html";
+
+            }
+
+            else if (module === "agrovet") {
+
+                window.location.href =
+                    "agrovet-records.html";
+
+            }
+
+            else if (module === "store") {
+
+                window.location.href =
+                    "store-records.html";
+
+            }
+
+            else if (module === "feed") {
+
+                window.location.href =
+                    "feed-orders.html";
+
+            }
+
+            else if (module === "dashboard") {
+
+                window.location.href =
+                    "farmer-dashboard.html";
+
+            }
+
+            else if (module === "payments") {
+
+                window.location.href =
+                    "monthly-payment.html";
+
+            }
+
+            else if (module === "reports") {
+
+                window.location.href =
+                    "board-reports.html";
+
+            }
+
+        }
+
+    </script>
+
+</body>
+
+</html>

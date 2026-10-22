@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Farmer Dashboard</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f4f4;
+            margin: 20px;
+        }
+
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px gray;
+        }
+
+        h1 {
+            text-align: center;
+            color: green;
+        }
+
+        .card {
+            background: #f9f9f9;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 5px solid green;
+            font-size: 22px;
+        }
+
+        .summary {
+            margin-top: 20px;
+            padding: 20px;
+            background: #eef;
+            border-radius: 10px;
+        }
+
+        .net {
+            font-size: 28px;
+            font-weight: bold;
+            color: green;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Farmer Dashboard</h1>
+
+        <div class="card">
+            Farmer ID:
+            <b>001</b>
+        </div>
+
+        <div class="card">
+            Farmer Name:
+            <b>Richard Mwangi</b>
+        </div>
+
+        <div class="card">
+            Milk Delivered:
+            <b id="milk">25 Litres</b>
+        </div>
+
+        <div class="card">
+            Milk Value:
+            <b>Ksh <span id="milkValue">1125</span></b>
+        </div>
+
+        <div class="card">
+            Agrovet Deductions:
+            <b>Ksh <span id="agrovet">650</span></b>
+        </div>
+
+        <div class="card">
+            Store Deductions:
+            <b>Ksh <span id="store">2500</span></b>
+        </div>
+
+        <div class="summary">
+
+            <h2>Payment Summary</h2>
+
+            Gross Milk Value:
+            <b>Ksh <span id="gross">1125</span></b>
+
+            <br><br>
+
+            Total Deductions:
+            <b>Ksh <span id="deductions">3150</span></b>
+
+            <br><br>
+
+            Expected Payment:
+
+            <div class="net">
+                Ksh <span id="netpay"></span>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+
+        let gross = 1125;
+
+        let agrovet = 650;
+
+        let store = 2500;
+
+        let deductions =
+            agrovet + store;
+
+        let net =
+            gross - deductions;
+
+        document.getElementById(
+            "netpay"
+        ).innerHTML = net;
+
+    </script>
+
+</body>
+
+</html>

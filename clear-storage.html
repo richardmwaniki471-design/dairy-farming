@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Clear Storage</title>
+</head>
+
+<body>
+
+    <h2>Clear Dairy System Storage</h2>
+
+    <button onclick="clearStorage()">
+        Clear All Farmers
+    </button>
+
+    <script>
+
+        function clearStorage() {
+
+            localStorage.removeItem("farmers");
+
+            alert("Farmers Storage Cleared");
+
+        }
+
+    </script>
+
+</body>
+
+</html>
